@@ -1,8 +1,10 @@
 package com.pingpong.test.model;
 
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.pingpong.test.PingPongWebSocket;
 
@@ -11,6 +13,33 @@ public abstract class GameModel{
 	public Timer timer;
 	boolean started = false;
 	int period=25;
+	
+	Thread webSocketThread;
+	Queue<String> messageQueue;
+	
+	public GameModel(){
+		messageQueue = new ConcurrentLinkedQueue<String>();
+		webSocketThread = new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				String message;
+				while(true){
+					message = messageQueue.poll();
+					if(message!=null){
+						for(PingPongWebSocket ws:sockets){
+							ws.sendMessage(message);
+						}
+					}
+					
+				}
+				
+			}
+			
+		});
+		webSocketThread.start();
+		
+	}
 	public void addWebSocket(PingPongWebSocket ws){
 		sockets.add(ws);
 	}
@@ -23,7 +52,15 @@ public abstract class GameModel{
 	}
 	public void start(){
 		timer = new Timer();
-		timer.scheduleAtFixedRate(this.getTimerTask(), 500, this.getPeriod());
+		timer.scheduleAtFixedRate(new TimerTask(){
+
+			@Override
+			public void run() {
+				update();
+				
+			}
+			
+		}, 500, this.getPeriod());
 		started = true;
 	}
 	public void stop(){
@@ -31,11 +68,14 @@ public abstract class GameModel{
 		started = false;
 	}
 	public abstract void movePaddle(int paddleNum, float x, float y);
-	public abstract TimerTask getTimerTask();
+	public abstract void update();
 	public void setPeriod(int period){
 		this.period = period;
 	}
 	public int getPeriod(){
 		return period;
+	}
+	public void postMessage(String message){
+		messageQueue.add(message);
 	}
 }

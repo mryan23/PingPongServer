@@ -92,27 +92,20 @@ public class TestGame extends GameModel{
 		return false;
 	}
 
-	@Override
-	public TimerTask getTimerTask() {
-		return new TimerTask(){
-
-			@Override
-			public void run() {
-				ball.move();
-				if(paddle1.collision(ball) || paddle2.collision(ball)){
-					ball.setVelocity(ball.velx, ball.vely, -1*ball.velz);
-				}
-				if(ball.x<-25||ball.x>25){
-					ball.setVelocity(-1*ball.velx, ball.vely, ball.velz);
-				}
-				if(ball.y<-25||ball.y>25){
-					ball.setVelocity(ball.velx,-1*ball.vely, ball.velz);
-				}
-				for(PingPongWebSocket ws:sockets)
-					ws.sendMessage(getMessage());
-			}
-			
-		};
+	public void update(){
+		ball.move();
+		if(paddle1.collision(ball) || paddle2.collision(ball)){
+			ball.setVelocity(ball.velx, ball.vely, -1*ball.velz);
+		}
+		if(ball.x<-25||ball.x>25){
+			ball.setVelocity(-1*ball.velx, ball.vely, ball.velz);
+		}
+		if(ball.y<-25||ball.y>25){
+			ball.setVelocity(ball.velx,-1*ball.vely, ball.velz);
+		}
+		postMessage(getMessage());
+		//for(PingPongWebSocket ws:sockets)
+			//ws.sendMessage(getMessage());
 	}
 
 }
