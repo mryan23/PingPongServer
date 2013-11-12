@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/scoreboard.css"></link>
+
+    <script src="js/three.min.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="js/ping_pong_table.js"></script>
+    <script src="js/ping_pong_ball.js"></script>
+    <script src="js/ping_pong_paddle.js"></script>
+    <script src="js/Sound.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/scoreboard.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/rectangle.js"></script>
+    <script src="js/games/curveball_game.js"></script>
+
+    <script>
+        function createScoreBoard() {
+            scoreBoard = new ScoreBoard(document.getElementById("scoreBoard"), 2);
+        }
+    </script>
+</head>
+
+<body onload="init();createScoreBoard();">
+    <audio id="paddleSound1" src="sound/paddle1.ogg" preload="auto"></audio>
+    <audio id="paddleSound2" src="sound/paddle2.ogg" preload="auto"></audio>
+    <audio id="paddleSound3" src="sound/paddle3.ogg" preload="auto"></audio>
+    <audio id="paddleSound4" src="sound/paddle4.ogg" preload="auto"></audio>
+    <audio id="paddleSound5" src="sound/paddle5.ogg" preload="auto"></audio>
+    <audio id="tableSound1" src="sound/table1.ogg" preload="auto"></audio>
+    <audio id="tableSound2" src="sound/table2.ogg" preload="auto"></audio>
+    <audio id="tableSound3" src="sound/table3.ogg" preload="auto"></audio>
+    <audio id="tableSound4" src="sound/table4.ogg" preload="auto"></audio>
+    <audio id="tableSound5" src="sound/table5.ogg" preload="auto"></audio>
+
+    <div id="wrap" style="width:100%; height:90%"></div>
+    <div id="scoreBoard" style="width:100%; height:9%">
+    </div>
+
+</body>
+
+</html>
