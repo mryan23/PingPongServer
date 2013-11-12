@@ -171,15 +171,17 @@ function init() {
         var int = parseInt(ball.position.z);
         //console.log(shapes);
         if (int % 5 == 0) {
-            shapes[oldVal].material.color.setHex(0x00ff00);
+            if (oldVal < shapes.length)
+                shapes[oldVal].material.color.setHex(0x00ff00);
             var distance = (int + 50) / 5;
-            shapes[distance].material.color.setHex(0xff0000);
+            if (distance < shapes.length)
+                shapes[distance].material.color.setHex(0xff0000);
             oldVal = distance;
         }
         //console.log(int);
         ball.update();
 
-        paddle1.paddle.position.x = strs[3];
+        paddle1.paddle.position.x = -1 * strs[3];
         paddle1.paddle.position.y = strs[4];
 
 
