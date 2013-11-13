@@ -9,13 +9,15 @@ PingPongPaddle.prototype = {
     rotation: new THREE.Vector3(0, 0, 0),
     init: function(scene) {
         var tableImage = THREE.ImageUtils.loadTexture('images/paddle_texture.jpg');
-        this.paddle = new THREE.Mesh(new THREE.CubeGeometry(this.radius, this.radius, .1), new THREE.MeshBasicMaterial({
+        //var geometry = new THREE.CubeGeometry(this.radius, this.radius, .1);
+        var geometry = new THREE.CylinderGeometry(this.radius, this.radius, .1, 16, 1);
+        this.paddle = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
             map: tableImage,
             transparent: true,
-            opacity: .25
+            opacity: .5
         }));
-        this.paddle.doubleSided = true;
-        //this.paddle.rotation.y=Math.PI/2;
+        //this.paddle.doubleSided = true;
+        this.rotate(Math.PI / 2, 0, 0);
         this.paddle.position.x = this.x;
         this.paddle.position.y = this.y;
         this.paddle.position.z = this.z;

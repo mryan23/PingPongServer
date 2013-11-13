@@ -70,9 +70,6 @@ function init() {
     table.init(scene);
     table.setPosition(0, -26, 0);
 
-    table2 = new PingPongTable(50, 100, 5);
-    table2.init(scene);
-    table2.setPosition(0, 26, 0);
 
     ball = new PingPongBall(1, 0, 0, 0);
     ball.init(scene);
