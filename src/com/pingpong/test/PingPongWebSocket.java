@@ -25,8 +25,10 @@ public class PingPongWebSocket implements OnTextMessage {
 		System.out.println("ON CLOSE");
 		System.out.println(System.currentTimeMillis()-open);
 		game.removeWebSocket(this);
-		if(/*game.numberWebSockets()==0&&*/game.isStarted())
+		if(game.numberWebSockets()==0&&game.isStarted()){
 			game.stop();
+			
+		}
 			
 		//if(game.isStarted())
 			//game.stopGame();

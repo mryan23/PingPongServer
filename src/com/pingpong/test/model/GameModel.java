@@ -24,7 +24,8 @@ public abstract class GameModel{
 			@Override
 			public void run() {
 				String message;
-				while(true){
+				System.out.println(Thread.currentThread().getName());
+				while(true&&!Thread.interrupted()){
 					message = messageQueue.poll();
 					if(message!=null){
 						for(PingPongWebSocket ws:sockets){
@@ -65,6 +66,7 @@ public abstract class GameModel{
 	}
 	public void stop(){
 		timer.cancel();
+		webSocketThread.interrupt();
 		started = false;
 	}
 	public abstract void movePaddle(int paddleNum, float x, float y);
@@ -77,5 +79,8 @@ public abstract class GameModel{
 	}
 	public void postMessage(String message){
 		messageQueue.add(message);
+	}
+	public int numberWebSockets(){
+		return sockets.size();
 	}
 }
