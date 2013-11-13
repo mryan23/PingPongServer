@@ -29,5 +29,8 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jetty-websocket-8.1.13.v20130916.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jetty-xml-8.1.13.v20130916.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/servlet-api-3.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-2.2.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-2.2.4-sources.jar"/>
+	<classpathentry kind="lib" path="libs/sqlite-jdbc-3.7.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

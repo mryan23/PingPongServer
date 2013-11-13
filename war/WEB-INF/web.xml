@@ -18,6 +18,14 @@ javaee/web-app_3_0.xsd"
 	    <servlet-name>Default</servlet-name>
 	    <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
 	</servlet>
+	<servlet>
+	    <servlet-name>Login</servlet-name>
+	    <servlet-class>com.pingpong.test.LoginServlet</servlet-class>
+	</servlet>
+	<servlet>
+	    <servlet-name>Signup</servlet-name>
+	    <servlet-class>com.pingpong.test.SignUpServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>Socket</servlet-name>
@@ -30,5 +38,13 @@ javaee/web-app_3_0.xsd"
 	<servlet-mapping>
 		<servlet-name>Create</servlet-name>
 		<url-pattern>/game/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Login</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Signup</servlet-name>
+		<url-pattern>/signup</url-pattern>
 	</servlet-mapping>
 </web-app>
