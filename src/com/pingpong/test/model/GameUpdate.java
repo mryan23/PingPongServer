@@ -10,6 +10,8 @@ public class GameUpdate {
 	public Coordinate paddle2Rotation=new Coordinate();
 	public boolean wallHit;
 	public boolean paddleHit;
+	public int player1Score;
+	public int player2Score;
 	
 	public class Coordinate{
 		public float x;
