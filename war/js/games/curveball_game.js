@@ -25,6 +25,11 @@ function init() {
     stats.domElement.style.top = '0px';
     container.appendChild(stats.domElement);
 
+    otherStats = new Stats();
+    otherStats.domElement.style.position = 'absolute';
+    otherStats.domElement.style.top = "50px";
+    container.appendChild(otherStats.domElement);
+
 
     camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
 
@@ -148,12 +153,20 @@ function init() {
         paddle2.paddle.position.x = positions.paddle2Position.x;
         paddle2.paddle.position.y = positions.paddle2Position.y;
 
+        if (positions.paddleSound) {
+            randomSound("paddle");
+        }
+        if (positions.wallSoundx || positions.wallSoundy) {
+            randomSound("wall");
+        }
+
         if (positions.newVal != null && oldVal != positions.newVal) {
             if (oldVal < shapes.length)
                 shapes[oldVal].material.color.setHex(0x00ff00);
             shapes[positions.newVal].material.color.setHex(0xff0000);
             oldVal = positions.newVal;
         }
+        otherStats.update();
         //renderer.render(scene, camera);
     };
     worker.postMessage('ws://' + location.hostname + ':8080/socket?gameId=' + gameId);
@@ -184,4 +197,13 @@ function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
     stats.update();
+}
+
+function randomSound(type) {
+    var index = Math.floor(Math.random() * 5);
+    //console.log(index);
+    if (type == "paddle")
+        paddleSounds[index].play();
+    else
+        tableSounds[index].play();
 }

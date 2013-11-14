@@ -4,6 +4,8 @@ positions.ballPosition = new THREE.Vector3(0, 0, 0);
 positions.paddle1Position = new THREE.Vector3(0, 0, 0);
 positions.paddle2Position = new THREE.Vector3(0, 0, 0);
 
+var xDiff, yDiff, zDiff;
+
 var oldVal;
 
 self.onmessage = function(e) {
@@ -25,7 +27,48 @@ self.onmessage = function(e) {
     connection.onmessage = function(e) {
         //console.log('Server: ' + e.data);
         //console.log(e.data);
-        var strs = e.data.split(" ");
+        /*var strs = e.data.split(" ");
+
+        var oldZ = positions.ballPosition.z;
+        var newZ = parseFloat(strs[2]);
+        var diffz = newZ - oldZ;
+        if (zDiff != null) {
+            if ((zDiff < 0 && diffz > 0) || (zDiff > 0 && diffz < 0)) {
+                positions.paddleSound = true;
+            } else {
+                positions.paddleSound = false;
+            }
+        }
+        zDiff = diffz;
+
+
+
+        var oldY = positions.ballPosition.y;
+        var newY = parseFloat(strs[1]);
+        var diffy = newY - oldY;
+        if (yDiff != null) {
+            if ((yDiff < 0 && diffy > 0) || (yDiff > 0 && diffy < 0)) {
+                positions.wallSoundy = true;
+            } else {
+                positions.wallSoundy = false;
+            }
+        }
+        yDiff = diffy;
+
+        var oldX = positions.ballPosition.x;
+        var newX = parseFloat(strs[0]);
+        var diffx = newX - oldX;
+        if (xDiff != null) {
+            if ((xDiff < 0 && diffx > 0) || (xDiff > 0 && diffx < 0)) {
+                positions.wallSoundx = true;
+            } else {
+                positions.wallSoundx = false;
+            }
+        }
+
+        xDiff = diffx;
+
+
         positions.ballPosition.x = strs[0];
         positions.ballPosition.y = strs[1];
         positions.ballPosition.z = strs[2];
@@ -51,7 +94,27 @@ self.onmessage = function(e) {
             newVal = 0;
         }
 
+        positions.newVal = newVal;*/
+
+        var update = JSON.parse(e.data);
+        positions.ballPosition = update.ballLocation;
+        positions.paddle1Position = update.paddle1Location;
+        positions.paddle2Position = update.paddle2Location;
+
+        var int = parseInt(positions.ballPosition.z);
+        //console.log(shapes);
+        var newVal = null;
+        if (int % 10 == 0 && int < 49 && int > -49) {
+
+            newVal = (int + 50) / 10;
+        } else if (int >= 49) {
+            newVal = 10;
+        } else if (int <= -49) {
+            newVal = 0;
+        }
+
         positions.newVal = newVal;
+
 
 
 
