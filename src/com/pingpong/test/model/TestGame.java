@@ -83,6 +83,8 @@ public class TestGame extends GameModel{
 		result+=paddle2.x;
 		result+=" ";
 		result+=paddle2.y;
+		result+=" ";
+		result+=System.currentTimeMillis();
 		return result;
 	}
 

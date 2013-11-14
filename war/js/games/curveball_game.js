@@ -20,6 +20,12 @@ function init() {
     });
     renderer.setSize(WIDTH, HEIGHT);
     container.appendChild(renderer.domElement);
+    stats = new Stats();
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.top = '0px';
+    container.appendChild(stats.domElement);
+
+
     camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
 
     if (playerNum == 1) {
@@ -50,42 +56,16 @@ function init() {
     // light.position.set(0,100,100);
     scene.add(light);
 
-    /*var tableImage = THREE.ImageUtils.loadTexture('images/table.png');
-
-    var bottom = new THREE.Mesh(new THREE.CubeGeometry(52, 100, 1), new THREE.MeshBasicMaterial({
-        map: tableImage
-    }));
-    var top = new THREE.Mesh(new THREE.CubeGeometry(52, 100, 1), new THREE.MeshBasicMaterial({
-        map: tableImage
-    }));
-    var left = new THREE.Mesh(new THREE.CubeGeometry(100, 52, 1), new THREE.MeshBasicMaterial({
-        map: tableImage
-    }));
-    var right = new THREE.Mesh(new THREE.CubeGeometry(100, 52, 1), new THREE.MeshBasicMaterial({
-        map: tableImage
-    }));
-    bottom.rotateOnAxis(new THREE.Vector3(1, 0, 0), Math.PI / 2);
-    bottom.position.y = -26;
-    top.rotateOnAxis(new THREE.Vector3(1, 0, 0), Math.PI / 2);
-    top.position.y = 26;
-    left.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2);
-    left.position.x = -26;
-    right.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2);
-    right.position.x = 26;
-    //bottom.rotateOnAxis(new THREE.Vector3(0, 0, 1), Math.PI / 2);
-
-    scene.add(bottom);
-    scene.add(top);
-    scene.add(left);
-    scene.add(right);*/
-
+    var lineMaterial = new THREE.LineBasicMaterial({
+        color: 0x00ff00,
+        linewidth: 2
+    });
 
     function drawShape(shape, x, y, z) {
         var points = shape.createPointsGeometry();
 
         var line = new THREE.Line(points, new THREE.LineBasicMaterial({
-            color: "#00ff00",
-            linewidth: 2
+            color: "#00ff00"
         }));
         line.position.set(x, y, z);
         scene.add(line);
@@ -100,11 +80,34 @@ function init() {
     rectShape.lineTo(0, 0);
 
     var counter = 0;
-    for (var i = -50; i <= 50; i += 5) {
+    for (var i = -50; i <= 50; i += 10) {
         shapes[counter++] = drawShape(rectShape, -25, -25, i);
     }
     oldVal = 0;
     console.log(shapes);
+
+
+
+    var line1Geo = new THREE.Geometry();
+    line1Geo.vertices.push(new THREE.Vector3(25, 25, -50));
+    line1Geo.vertices.push(new THREE.Vector3(25, 25, 50));
+
+    var line2Geo = new THREE.Geometry();
+    line2Geo.vertices.push(new THREE.Vector3(-25, 25, -50));
+    line2Geo.vertices.push(new THREE.Vector3(-25, 25, 50));
+
+    var line3Geo = new THREE.Geometry();
+    line3Geo.vertices.push(new THREE.Vector3(-25, -25, -50));
+    line3Geo.vertices.push(new THREE.Vector3(-25, -25, 50));
+
+    var line4Geo = new THREE.Geometry();
+    line4Geo.vertices.push(new THREE.Vector3(25, -25, -50));
+    line4Geo.vertices.push(new THREE.Vector3(25, -25, 50));
+    scene.add(new THREE.Line(line1Geo, lineMaterial));
+    scene.add(new THREE.Line(line2Geo, lineMaterial));
+    scene.add(new THREE.Line(line3Geo, lineMaterial));
+    scene.add(new THREE.Line(line4Geo, lineMaterial));
+
     //shapes[oldVal].material.color = new THREE.Color(0, 0, 255);
 
 
@@ -115,6 +118,8 @@ function init() {
     ball = new PingPongBall(1, 0, 0, 0);
     ball.init(scene);
     ball.setMinimumY(-21);
+
+    console.log(ball.sphere.position);
 
 
     //paddle1 = new PingPongPaddle(-50, -7, 0, 20);
@@ -129,6 +134,29 @@ function init() {
     paddle1Position = new THREE.Vector3(paddle1.paddle.position.x,
         paddle1.paddle.position.y,
         paddle1.paddle.position.z);
+
+    var worker = new Worker('js/websocketworker_curveball.js');
+    worker.onmessage = function(event) {
+        var positions = event.data;
+        ball.position = positions.ballPosition;
+        ball.update();
+
+        paddle1.paddle.position.x = positions.paddle1Position.x;
+        paddle1.paddle.position.y = positions.paddle1Position.y;
+
+
+        paddle2.paddle.position.x = positions.paddle2Position.x;
+        paddle2.paddle.position.y = positions.paddle2Position.y;
+
+        if (positions.newVal != null && oldVal != positions.newVal) {
+            if (oldVal < shapes.length)
+                shapes[oldVal].material.color.setHex(0x00ff00);
+            shapes[positions.newVal].material.color.setHex(0xff0000);
+            oldVal = positions.newVal;
+        }
+        //renderer.render(scene, camera);
+    };
+    worker.postMessage('ws://' + location.hostname + ':8080/socket?gameId=' + gameId);
 
     //table.getNormal();
 
@@ -148,63 +176,12 @@ function init() {
     tableSounds[3] = document.getElementById("tableSound4");
     tableSounds[4] = document.getElementById("tableSound5");
 
+    animate();
 
-    //connection = new WebSocket('ws://24.219.213.60:8080/socket/');
-    //connection = new WebSocket('ws://localhost:8080/socket?gameId='+gameId);
-    console.log(location.hostname);
-    connection = new WebSocket('ws://' + location.hostname + ':8080/socket?gameId=' + gameId);
-    connection.onopen = function() {
-        connection.send('Ping'); // Send the message 'Ping' to the server
-    };
+}
 
-    // Log errors
-    connection.onerror = function(error) {
-        console.log('WebSocket Error ' + error);
-    };
-
-    // Log messages from the server
-    connection.onmessage = function(e) {
-        //console.log('Server: ' + e.data);
-        //console.log(e.data);
-        var strs = e.data.split(" ");
-        ball.position.x = strs[0];
-        ball.position.y = strs[1];
-        ball.position.z = strs[2];
-
-        var int = parseInt(ball.position.z);
-        //console.log(shapes);
-        if (int % 5 == 0 && int < 49 && int > -49) {
-            if (oldVal < shapes.length)
-                shapes[oldVal].material.color.setHex(0x00ff00);
-            var distance = (int + 50) / 5;
-            if (distance < shapes.length)
-                shapes[distance].material.color.setHex(0xff0000);
-            oldVal = distance;
-        } else if (int >= 49) {
-            if (oldVal < shapes.length)
-                shapes[oldVal].material.color.setHex(0x00ff00);
-            shapes[20].material.color.setHex(0xff0000);
-            oldVal = 20;
-        } else if (int <= -49) {
-            if (oldVal < shapes.length)
-                shapes[oldVal].material.color.setHex(0x00ff00);
-            shapes[0].material.color.setHex(0xff0000);
-            oldVal = 0;
-        }
-        //console.log(int);
-        ball.update();
-
-        paddle1.paddle.position.x = -1 * strs[3];
-        paddle1.paddle.position.y = strs[4];
-
-
-        paddle2.paddle.position.x = strs[5];
-        paddle2.paddle.position.y = strs[6];
-
-        //console.log(e.data);
-
-        renderer.render(scene, camera);
-
-    }
-
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+    stats.update();
 }
