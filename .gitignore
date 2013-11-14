@@ -6,3 +6,4 @@
 
 pingpongserver.jar
 *.db
+*.sh
