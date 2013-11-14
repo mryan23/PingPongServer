@@ -20,12 +20,13 @@ function init() {
     renderer.setSize(WIDTH, HEIGHT);
     container.appendChild(renderer.domElement);
     camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
+
     if (playerNum == 1) {
         //camera.position.set(-120, -4.5, -.5);
         camera.position.set(-.5, -4.5, -120);
         //camera.rotation.set(-1.71, -1.54, -1.71);
     } else if (playerNum == 2) {
-        camera.position.set(120, -4.5, -.5);
+        camera.position.set(-.5, -4.5, 120);
         //camera.rotation.set(1.71, 1.54, -1.71);
     }
     camera.lookAt(new THREE.Vector3(0, 0, 0));
@@ -170,13 +171,23 @@ function init() {
 
         var int = parseInt(ball.position.z);
         //console.log(shapes);
-        if (int % 5 == 0) {
+        if (int % 5 == 0 && int < 49 && int > -49) {
             if (oldVal < shapes.length)
                 shapes[oldVal].material.color.setHex(0x00ff00);
             var distance = (int + 50) / 5;
             if (distance < shapes.length)
                 shapes[distance].material.color.setHex(0xff0000);
             oldVal = distance;
+        } else if (int >= 49) {
+            if (oldVal < shapes.length)
+                shapes[oldVal].material.color.setHex(0x00ff00);
+            shapes[20].material.color.setHex(0xff0000);
+            oldVal = 20;
+        } else if (int <= -49) {
+            if (oldVal < shapes.length)
+                shapes[oldVal].material.color.setHex(0x00ff00);
+            shapes[0].material.color.setHex(0xff0000);
+            oldVal = 0;
         }
         //console.log(int);
         ball.update();

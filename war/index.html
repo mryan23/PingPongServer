@@ -1,53 +1,82 @@
 <html>
-	<head>
-		<link href="css/bootstrap.css" rel=stylesheet type="text/css"></link>
-		<script src="js/jquery.min.js"></script>
-		<script src="js/bootstrap.js"></script>
-		<script>
-		function joinGame(){
-			var id=$("#GameIdField").val();
-			window.location="game.html?id="+id;
-		}
-		function newGame(){
-			var gameType=parseInt($('#GameType').find(":selected").val());
-			var numPlayers=parseInt($('#NumPlayers').find(":selected").val());
-			var object = new Object();
-			object.gameType=gameType;
-			object.numPlayers=numPlayers;
-			console.log(JSON.stringify(object));
 
-			var request =$.ajax({
-				type: "POST",
-				url: "/game/",
-				data:JSON.stringify(object),
-			});
-			request.done(function(response, textStatus, jqXHR ){
-				var resp=jQuery.parseJSON( response );
-				alert("Game ID is "+resp.gameId);
-				window.location="game.html?id="+resp.gameId+"&playerNum="+resp.playerNum;
-			});
-		}
+<head>
+    <link href="css/bootstrap.css" rel=stylesheet type="text/css"></link>
+    <style type="text/css">
+        label {
+            color: white;
+        }
+    </style>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script>
+        function loadCreateGame() {
+            $('#wrapper').load("html/create_game.html");
+        }
 
-		</script>
-	</head>
-	<body>
-		<div style="position:absolute; left:50px;top:50px">
-			<input type="text" id="GameIdField"></input>
-			<button id="JoinGameButton" onclick="joinGame();" class="btn">Join Game</button>
-			<br>
-			<label for="NumPlayers">Num Players</label>
-			<select id="NumPlayers">
-				<option value="1">1</option>
-				<option value="2">2</option>
-			</select>
-			<br>
-			<label for="GameType">Num Players</label>
-			<select id="GameType">
-				<option value="1">3D Pong</option>
-				<option value="2">Ping Pong</option>
-			</select>
-			<br>
-			<button id="NewGameButton" onclick="newGame();" class="btn" type="button">New Game</button>
-		</div>
-	</body>
+        function login() {
+            //DO AJAX TO SEE IF VALID  USERlogin?username=" + username + "&password=" + password";
+
+            var username = $('#inputUser')[0].value;
+            var password = $('#inputPassword')[0].value;
+            var url = "/login?username=" + username + "&password=" + password;
+            console.log(url);
+            var request = $.ajax({
+                type: "GET",
+                contentType: "application/xml",
+                dataType: "text",
+                url: url,
+            });
+            console.log(request);
+            request.done(function(response, textStatus, jqXHR) {
+                console.log(response);
+                var valid = true;
+                if (valid) {
+                    loadCreateGame();
+                } else {
+
+                }
+            });
+            request.fail(function(jqXHR, textStatus, errorThrown) {
+                // log the error to the console
+                console.error(
+                    "The following error occured: " +
+                    textStatus, errorThrown, jqXHR
+                );
+            });
+        }
+
+
+
+        function signUp() {
+            $('#wrapper').load("html/signup.html");
+        }
+    </script>
+</head>
+
+<body background="images/background.jpg" style="background-repeat: no-repeat; background-size:cover">
+    <div id="wrapper" style="position:absolute; left:50px;top:50px">
+        <form class="form-horizontal" onsubmit="return false;">
+            <div class="control-group">
+                <label class="control-label" for="inputUser">Username</label>
+                <div class="controls">
+                    <input type="text" id="inputUser" placeholder="Username">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputPassword">Password</label>
+                <div class="controls">
+                    <input type="password" id="inputPassword" placeholder="Password">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" name="submit" value="signin" class="btn" onclick="login();">Sign in</button>
+                    <button type="submit" name="submit" value="create" class="btn" onclick="signUp();">Create Account</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+
 </html>

@@ -1,0 +1,65 @@
+<script>
+    function comparePasswords() {
+        var val1 = $('#inputPassword')[0].value;
+        var val2 = $('#inputPassword2')[0].value;
+        if (val1 == val2) {
+            $('#passwordImg')[0].src = "images/check.jpg";
+        } else {
+            $('#passwordImg')[0].src = "images/x.png";
+        }
+        return val1 == val2;
+    }
+
+    function createAccount() {
+        if (!comparePasswords()) {
+            return;
+        }
+        var username = $('#inputUser')[0].value;
+        var password = $('#inputPassword')[0].value;
+        var url = "/signup?username=" + username + "&password=" + password;
+        console.log(url);
+        var request = $.ajax({
+            type: "GET",
+            contentType: "application/xml",
+            dataType: "text",
+            url: url,
+        });
+        console.log(request);
+        request.done(function(response, textStatus, jqXHR) {
+            console.log(response);
+        });
+        request.fail(function(jqXHR, textStatus, errorThrown) {
+            // log the error to the console
+            console.error(
+                "The following error occured: " +
+                textStatus, errorThrown, jqXHR
+            );
+        });
+    }
+</script>
+<form class="form-horizontal" onsubmit="return false;">
+    <div class="control-group">
+        <label class="control-label" for="inputUser">Username</label>
+        <div class="controls">
+            <input type="text" id="inputUser" placeholder="Username">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="inputPassword">Password</label>
+        <div class="controls">
+            <input type="password" id="inputPassword" placeholder="Password" oninput="comparePasswords();">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="inputPassword2">Confirm</label>
+        <div class="controls">
+            <input type="password" id="inputPassword2" placeholder="Confirm" oninput="comparePasswords();">
+            <img id="passwordImg" width="30px" height="30px" src="images/x.png"></img>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" name="submit" value="create" class="btn" onclick="createAccount();">Create Account</button>
+        </div>
+    </div>
+</form>

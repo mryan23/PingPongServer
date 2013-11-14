@@ -1,0 +1,42 @@
+<script>
+    function joinGame() {
+        var id = $("#GameIdField").val();
+        window.location = "game.html?id=" + id;
+    }
+
+    function newGame() {
+        var gameType = parseInt($('#GameType').find(":selected").val());
+        var numPlayers = parseInt($('#NumPlayers').find(":selected").val());
+        var object = new Object();
+        object.gameType = gameType;
+        object.numPlayers = numPlayers;
+        console.log(JSON.stringify(object));
+
+        var request = $.ajax({
+            type: "POST",
+            url: "/game/",
+            data: JSON.stringify(object),
+        });
+        request.done(function(response, textStatus, jqXHR) {
+            var resp = jQuery.parseJSON(response);
+            alert("Game ID is " + resp.gameId);
+            window.location = "game.html?id=" + resp.gameId + "&playerNum=" + resp.playerNum;
+        });
+    }
+</script>
+<input type="text" id="GameIdField"></input>
+<button id="JoinGameButton" onclick="joinGame();" class="btn">Join Game</button>
+<br>
+<label for="NumPlayers">Num Players</label>
+<select id="NumPlayers">
+    <option value="1">1</option>
+    <option value="2">2</option>
+</select>
+<br>
+<label for="GameType">Num Players</label>
+<select id="GameType">
+    <option value="1">3D Pong</option>
+    <option value="2">Ping Pong</option>
+</select>
+<br>
+<button id="NewGameButton" onclick="newGame();" class="btn" type="button">New Game</button>
