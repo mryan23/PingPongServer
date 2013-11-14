@@ -20,6 +20,7 @@ var playerNum;
 var container;
 
 //animate();
+init();
 
 function init() {
     container = document.getElementById("wrap");
@@ -43,11 +44,12 @@ function init() {
     if (playerNum == 1) {
         //camera.position.set(-120, -4.5, -.5);
         camera.position.set(-.5, -4.5, -120);
-        camera.rotation.set(-1.71, -1.54, -1.71);
+        //camera.rotation.set(-1.71, -1.54, -1.71);
     } else if (playerNum == 2) {
-        camera.position.set(120, -4.5, -.5);
-        camera.rotation.set(1.71, 1.54, -1.71);
+        camera.position.set(-.5, -4.5, 120);
+        //camera.rotation.set(1.71, 1.54, -1.71);
     }
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
     scene.add(camera);
 
     window.addEventListener('resize', function() {
@@ -66,7 +68,7 @@ function init() {
     // light.position.set(0,100,100);
     scene.add(light);
 
-    table = new PingPongTable(50, 100, 5);
+    table = new PingPongTable(100, 50, 5);
     table.init(scene);
     table.setPosition(0, -26, 0);
 
@@ -128,9 +130,9 @@ function init() {
         //console.log('Server: ' + e.data);
         //console.log(e.data);
         var strs = e.data.split(" ");
-        ball.position.x = strs[2];
+        ball.position.x = strs[0];
         ball.position.y = strs[1];
-        ball.position.z = strs[0];
+        ball.position.z = strs[2];
         ball.update();
 
         //paddle1.paddle.position.y = strs[4];

@@ -20,7 +20,7 @@
         request.done(function(response, textStatus, jqXHR) {
             var resp = jQuery.parseJSON(response);
             alert("Game ID is " + resp.gameId);
-            window.location = "game.html?id=" + resp.gameId + "&playerNum=" + resp.playerNum;
+            window.location = "game.html?id=" + resp.gameId + "&playerNum=" + resp.playerNum + "&gameType=" + resp.gameType;
         });
     }
 </script>

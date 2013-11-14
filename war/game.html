@@ -12,16 +12,34 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/scoreboard.js"></script>
     <script src="js/utils.js"></script>
-    <script src="js/games/curveball_game.js"></script>
 
     <script>
         function createScoreBoard() {
             scoreBoard = new ScoreBoard(document.getElementById("scoreBoard"), 2);
         }
+
+        function initializeGame() {
+            var gameType = getURLParameter("gameType");
+            console.log("GAME TYPE", gameType);
+            if (gameType == 1) {
+                loadJsFile("js/games/curveball_game.js");
+            } else if (gameType == 2) {
+                loadJsFile("js/games/basic_game.js");
+            }
+            //init();
+
+        }
+
+        function loadJsFile(fileName) {
+            var fileref = document.createElement('script');
+            fileref.setAttribute("type", "text/javascript");
+            fileref.setAttribute("src", fileName);
+            document.head.appendChild(fileref);
+        }
     </script>
 </head>
 
-<body onload="init();createScoreBoard();">
+<body onload="initializeGame();createScoreBoard();">
     <audio id="paddleSound1" src="sound/paddle1.ogg" preload="auto"></audio>
     <audio id="paddleSound2" src="sound/paddle2.ogg" preload="auto"></audio>
     <audio id="paddleSound3" src="sound/paddle3.ogg" preload="auto"></audio>

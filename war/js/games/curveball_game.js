@@ -1,5 +1,6 @@
 var shapes = new Array();
 var oldVal;
+init();
 
 function init() {
     container = document.getElementById("wrap");
@@ -40,7 +41,8 @@ function init() {
         camera.updateProjectionMatrix();
     });
 
-    renderer.setClearColor(0x333F47, 1);
+    //renderer.setClearColor(0x333F47, 1);
+    renderer.setClearColor(0x000000, 1);
 
     // Create a light, set its position, and add it to the scene.
     var light = new THREE.AmbientLight(0xffffff);

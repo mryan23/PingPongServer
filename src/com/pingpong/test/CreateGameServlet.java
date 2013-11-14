@@ -39,6 +39,7 @@ public class CreateGameServlet extends HttpServlet {
 		Response response = new Response();
 		response.gameId=gameId;
 		response.playerNum=(int)(Math.random()*request.numPlayers)+1;
+		response.gameType=request.gameType;
 		resp.getWriter().write(gson.toJson(response));
 	}
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException{
@@ -56,5 +57,6 @@ public class CreateGameServlet extends HttpServlet {
 	private class Response{
 		public int gameId;
 		public int playerNum;
+		public int gameType;
 	}
 }
