@@ -111,40 +111,23 @@ function init() {
     tableSounds[3] = document.getElementById("tableSound4");
     tableSounds[4] = document.getElementById("tableSound5");
 
-
-    //connection = new WebSocket('ws://24.219.213.60:8080/socket/');
-    //connection = new WebSocket('ws://localhost:8080/socket?gameId='+gameId);
-    console.log(location.hostname);
-    connection = new WebSocket('ws://' + location.hostname + ':8080/socket?gameId=' + gameId);
-    connection.onopen = function() {
-        connection.send('Ping'); // Send the message 'Ping' to the server
-    };
-
-    // Log errors
-    connection.onerror = function(error) {
-        console.log('WebSocket Error ' + error);
-    };
-
-    // Log messages from the server
-    connection.onmessage = function(e) {
-        //console.log('Server: ' + e.data);
-        //console.log(e.data);
-        var strs = e.data.split(" ");
-        ball.position.x = strs[0];
-        ball.position.y = strs[1];
-        ball.position.z = strs[2];
+    var worker = new Worker('js/websocketworker_basic.js');
+    worker.onmessage = function(event) {
+        var positions = event.data;
+        ball.position = positions.ballPosition;
         ball.update();
 
-        //paddle1.paddle.position.y = strs[4];
-        //paddle1.paddle.position.z = strs[3];
+        paddle1.paddle.position.x = positions.paddle1Position.x;
+        paddle1.paddle.position.y = positions.paddle1Position.y;
 
-        //paddle2.paddle.position.y = strs[6];
-        //paddle2.paddle.position.z = strs[5];
-        //console.log(e.data);
+
+        paddle2.paddle.position.x = positions.paddle2Position.x;
+        paddle2.paddle.position.y = positions.paddle2Position.y;
 
         renderer.render(scene, camera);
+    };
+    worker.postMessage('ws://' + location.hostname + ':8080/socket?gameId=' + gameId);
 
-    }
 
 }
 

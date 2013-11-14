@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.google.gson.Gson;
 import com.pingpong.test.PingPongWebSocket;
 
 public class TestGame extends GameModel{
 	public PaddleModel paddle1, paddle2;
+	Gson gson = new Gson();
 	public BallModel ball;
 	public TestGame(){
-		paddle1=new PaddleModel(25, 25, 0, 0, 50);
+		paddle1=new PaddleModel(25,25, 0, 0, 50);
 		paddle2=new PaddleModel(25,25,0,0,-50);
 		ball=new BallModel(1,0,0,0);
-		ball.setVelocity(1,1,1);
+		ball.setVelocity(.5f,1,1);
 		started = false;
 		sockets = new ArrayList<PingPongWebSocket>();
 	}
@@ -69,7 +71,7 @@ public class TestGame extends GameModel{
 	}*/
 	
 	public String getMessage(){
-		String result="";
+		/*String result="";
 		result+=ball.x;
 		result+=" ";
 		result+=ball.y;
@@ -83,7 +85,26 @@ public class TestGame extends GameModel{
 		result+=paddle2.x;
 		result+=" ";
 		result+=paddle2.y;
-		return result;
+		result+=" ";
+		result+=System.currentTimeMillis();*/
+		
+		GameUpdate update=new GameUpdate();
+		update.ballLocation.x=ball.x;
+		update.ballLocation.y=ball.y;
+		update.ballLocation.z=ball.z;
+		update.ballVelocity.x=ball.velx;
+		update.ballVelocity.y=ball.vely;
+		update.ballVelocity.z=ball.velz;
+		update.paddle1Location.x=paddle1.x;
+		update.paddle1Location.y=paddle1.y;
+		update.paddle1Location.z=paddle1.z;
+		update.paddle2Location.x=paddle2.x;
+		update.paddle2Location.y=paddle2.y;
+		update.paddle2Location.z=paddle2.z;
+		update.wallHit=false;
+		update.paddleHit=false;
+		
+		return gson.toJson(update);
 	}
 
 	@Override
@@ -97,11 +118,17 @@ public class TestGame extends GameModel{
 		if(paddle1.collision(ball) || paddle2.collision(ball)){
 			ball.setVelocity(ball.velx, ball.vely, -1*ball.velz);
 		}
-		if(ball.x<-25||ball.x>25){
+		if((ball.x<-25||ball.x>25)&&(ball.z<50&&ball.z>-50)){
 			ball.setVelocity(-1*ball.velx, ball.vely, ball.velz);
 		}
-		if(ball.y<-25||ball.y>25){
+		if((ball.y<-25||ball.y>25)&&(ball.z<50&&ball.z>-50)){
 			ball.setVelocity(ball.velx,-1*ball.vely, ball.velz);
+		}
+		
+		if(ball.z>100||ball.z<-100){
+			ball.z=0;
+			ball.x=0;
+			ball.y=0;
 		}
 		postMessage(getMessage());
 		//for(PingPongWebSocket ws:sockets)
