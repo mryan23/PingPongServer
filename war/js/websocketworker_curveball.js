@@ -8,6 +8,8 @@ var xDiff, yDiff, zDiff;
 
 var oldVal;
 
+var interval;
+
 self.onmessage = function(e) {
     //var data = e.data;
 
@@ -25,78 +27,9 @@ self.onmessage = function(e) {
 
     // Log messages from the server
     connection.onmessage = function(e) {
-        //console.log('Server: ' + e.data);
-        //console.log(e.data);
-        /*var strs = e.data.split(" ");
 
-        var oldZ = positions.ballPosition.z;
-        var newZ = parseFloat(strs[2]);
-        var diffz = newZ - oldZ;
-        if (zDiff != null) {
-            if ((zDiff < 0 && diffz > 0) || (zDiff > 0 && diffz < 0)) {
-                positions.paddleSound = true;
-            } else {
-                positions.paddleSound = false;
-            }
-        }
-        zDiff = diffz;
-
-
-
-        var oldY = positions.ballPosition.y;
-        var newY = parseFloat(strs[1]);
-        var diffy = newY - oldY;
-        if (yDiff != null) {
-            if ((yDiff < 0 && diffy > 0) || (yDiff > 0 && diffy < 0)) {
-                positions.wallSoundy = true;
-            } else {
-                positions.wallSoundy = false;
-            }
-        }
-        yDiff = diffy;
-
-        var oldX = positions.ballPosition.x;
-        var newX = parseFloat(strs[0]);
-        var diffx = newX - oldX;
-        if (xDiff != null) {
-            if ((xDiff < 0 && diffx > 0) || (xDiff > 0 && diffx < 0)) {
-                positions.wallSoundx = true;
-            } else {
-                positions.wallSoundx = false;
-            }
-        }
-
-        xDiff = diffx;
-
-
-        positions.ballPosition.x = strs[0];
-        positions.ballPosition.y = strs[1];
-        positions.ballPosition.z = strs[2];
-
-        positions.paddle1Position.x = -1 * strs[3];
-        positions.paddle1Position.y = strs[4];
-
-        positions.paddle2Position.x = strs[5];
-        positions.paddle2Position.y = strs[6];
-
-        var timestamp = strs[7];
-
-
-        var int = parseInt(positions.ballPosition.z);
-        //console.log(shapes);
-        var newVal = null;
-        if (int % 10 == 0 && int < 49 && int > -49) {
-
-            newVal = (int + 50) / 10;
-        } else if (int >= 49) {
-            newVal = 10;
-        } else if (int <= -49) {
-            newVal = 0;
-        }
-
-        positions.newVal = newVal;*/
-
-        var update = JSON.parse(e.data);
+        //clearInterval(interval);
+        update = JSON.parse(e.data);
         positions.ballPosition = update.ballLocation;
         positions.paddle1Position = update.paddle1Location;
         positions.paddle2Position = update.paddle2Location;
@@ -114,12 +47,37 @@ self.onmessage = function(e) {
         }
 
         positions.newVal = newVal;
+        positions.fromNetwork = true;
 
 
 
 
 
         self.postMessage(positions);
+        if (!interval) {
+            interval = setInterval(function() {
+                positions.fromNetwork = false;
+                positions.ballPosition.x += update.ballVelocity.x;
+                positions.ballPosition.y += update.ballVelocity.y;
+                positions.ballPosition.z += update.ballVelocity.z;
+
+                var int = parseInt(positions.ballPosition.z);
+                //console.log(shapes);
+                var newVal = null;
+                if (int % 10 == 0 && int < 49 && int > -49) {
+
+                    newVal = (int + 50) / 10;
+                } else if (int >= 49) {
+                    newVal = 10;
+                } else if (int <= -49) {
+                    newVal = 0;
+                }
+
+                positions.newVal = newVal;
+
+                self.postMessage(positions);
+            }, 25);
+        }
 
     };
 

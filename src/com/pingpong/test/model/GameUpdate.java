@@ -12,11 +12,15 @@ public class GameUpdate {
 	public boolean paddleHit;
 	public int player1Score;
 	public int player2Score;
-	
+	public int count;
 	public class Coordinate{
 		public float x;
 		public float y;
 		public float z;
+		
+		public boolean equals(Coordinate other){
+			return this.x==other.x&&this.y==other.y&&this.z==other.z;
+		}
 	}
 
 }

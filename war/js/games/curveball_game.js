@@ -141,7 +141,9 @@ function init() {
         paddle1.paddle.position.z);
 
     var worker = new Worker('js/websocketworker_curveball.js');
+    console.log("WHYYYYY");
     worker.onmessage = function(event) {
+        console.log("onmessage");
         var positions = event.data;
         ball.position = positions.ballPosition;
         ball.update();
@@ -166,7 +168,8 @@ function init() {
             shapes[positions.newVal].material.color.setHex(0xff0000);
             oldVal = positions.newVal;
         }
-        otherStats.update();
+        if (positions.fromNetwork)
+            otherStats.update();
         //renderer.render(scene, camera);
     };
     worker.postMessage('ws://' + location.hostname + ':8080/socket?gameId=' + gameId);

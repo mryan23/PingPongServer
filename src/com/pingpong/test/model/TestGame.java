@@ -1,15 +1,12 @@
 package com.pingpong.test.model;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import com.google.gson.Gson;
 import com.pingpong.test.PingPongWebSocket;
 
 public class TestGame extends GameModel{
 	public PaddleModel paddle1, paddle2;
-	Gson gson = new Gson();
+	
 	public BallModel ball;
 	public TestGame(){
 		paddle1=new PaddleModel(25,25, 0, 0, 50);
@@ -70,7 +67,7 @@ public class TestGame extends GameModel{
 		sockets.remove(ws);
 	}*/
 	
-	public String getMessage(){
+	public GameUpdate getMessage(){
 		/*String result="";
 		result+=ball.x;
 		result+=" ";
@@ -104,7 +101,7 @@ public class TestGame extends GameModel{
 		update.wallHit=false;
 		update.paddleHit=false;
 		
-		return gson.toJson(update);
+		return update;
 	}
 
 	@Override
