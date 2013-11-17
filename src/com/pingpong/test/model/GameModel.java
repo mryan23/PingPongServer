@@ -98,6 +98,9 @@ public abstract class GameModel {
 		}
 		if(!prevSentUpdate.ballVelocity.equals(update.ballVelocity)){
 			send=true;
+		} else if(!prevSentUpdate.paddle1Location.equals(update.paddle1Location)||
+				!prevSentUpdate.paddle2Location.equals(update.paddle2Location)){
+			send=true;
 		}
 		if (send) {
 			prevSentUpdate = update;

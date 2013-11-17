@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project PingPongServer with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="/home/ryan/workspace/PingPongServer/pingpongserver.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="com.pingpong.test.PingPongWebServer"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ gson-2.2.4.jar jetty-ajp-8.1.13.v20130916.jar jetty-annotations-8.1.13.v20130916.jar jetty-client-8.1.13.v20130916.jar jetty-continuation-8.1.13.v20130916.jar jetty-deploy-8.1.13.v20130916.jar jetty-http-8.1.13.v20130916.jar jetty-io-8.1.13.v20130916.jar jetty-jmx-8.1.13.v20130916.jar jetty-jndi-8.1.13.v20130916.jar jetty-overlay-deployer-8.1.13.v20130916.jar jetty-plus-8.1.13.v20130916.jar jetty-policy-8.1.13.v20130916.jar jetty-rewrite-8.1.13.v20130916.jar jetty-security-8.1.13.v20130916.jar jetty-server-8.1.13.v20130916.jar jetty-servlet-8.1.13.v20130916.jar jetty-servlets-8.1.13.v20130916.jar jetty-util-8.1.13.v20130916.jar jetty-webapp-8.1.13.v20130916.jar jetty-websocket-8.1.13.v20130916.jar jetty-xml-8.1.13.v20130916.jar servlet-api-3.0.jar gson-2.2.4-javadoc.jar gson-2.2.4-sources.jar sqlite-jdbc-3.7.2.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="/home/ryan/workspace/PingPongServer/bin"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="gson-2.2.4.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-ajp-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-annotations-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-client-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-continuation-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-deploy-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-http-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-io-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-jmx-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-jndi-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-overlay-deployer-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-plus-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-policy-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-rewrite-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-security-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-server-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-servlet-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-servlets-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-util-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-webapp-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-websocket-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="jetty-xml-8.1.13.v20130916.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="servlet-api-3.0.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="gson-2.2.4-javadoc.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/war/WEB-INF/lib" includes="gson-2.2.4-sources.jar"/>
+            <zipfileset dir="/home/ryan/workspace/PingPongServer/libs" includes="sqlite-jdbc-3.7.2.jar"/>
+        </jar>
+    </target>
+</project>

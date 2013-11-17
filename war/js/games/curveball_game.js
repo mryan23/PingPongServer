@@ -148,7 +148,7 @@ function init() {
         ball.position = positions.ballPosition;
         ball.update();
 
-        paddle1.paddle.position.x = positions.paddle1Position.x;
+        paddle1.paddle.position.x = -1 * positions.paddle1Position.x;
         paddle1.paddle.position.y = positions.paddle1Position.y;
 
 
