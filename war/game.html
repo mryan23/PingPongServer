@@ -15,9 +15,19 @@
     <script src="js/utils.js"></script>
 
     <script>
+    function getGameId() {
+
+    }
+
     function createScoreBoard() {
         scoreBoard = new ScoreBoard(document.getElementById("scoreBoard"), 2);
-        scoreBoard.setName(["TEST", "TESTTTTT"]);
+
+        setInterval(function() {
+            $.get("/users?gameId=" + getURLParameter("id"), function(data, status) {
+                scoreBoard.setName([data.player1, data.player2]);
+            });
+        }, 5000);
+
     }
 
     function initializeGame() {

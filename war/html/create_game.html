@@ -3,7 +3,10 @@ function joinGame() {
     var id = $("#GameIdField").val();
     var gameType = 1;
     var playerNum = 2;
-    window.location = "game.html?id=" + id + "&playerNum=" + playerNum + "&gameType=" + gameType;
+    $.post("/users?gameId=" + id + "&playerNum=" + playerNum + "&name=" + localStorage.username, function() {
+        window.location = "game.html?id=" + id + "&playerNum=" + playerNum + "&gameType=" + gameType;
+    })
+
 }
 
 function newGame() {
@@ -12,6 +15,7 @@ function newGame() {
     var object = new Object();
     object.gameType = gameType;
     object.numPlayers = numPlayers;
+    object.userName = localStorage.username;
     console.log(JSON.stringify(object));
 
     var request = $.ajax({

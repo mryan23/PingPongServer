@@ -3,54 +3,55 @@
 <head>
     <link href="css/bootstrap.css" rel=stylesheet type="text/css"></link>
     <style type="text/css">
-        label {
-            color: white;
-        }
+    label {
+        color: white;
+    }
     </style>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script>
-        function loadCreateGame() {
-            $('#wrapper').load("html/create_game.html");
-        }
+    function loadCreateGame() {
+        $('#wrapper').load("html/create_game.html");
+    }
 
-        function login() {
-            //DO AJAX TO SEE IF VALID  USERlogin?username=" + username + "&password=" + password";
+    function login() {
+        //DO AJAX TO SEE IF VALID  USERlogin?username=" + username + "&password=" + password";
 
-            var username = $('#inputUser')[0].value;
-            var password = $('#inputPassword')[0].value;
-            var url = "/login?username=" + username + "&password=" + password;
-            console.log(url);
-            var request = $.ajax({
-                type: "GET",
-                contentType: "application/xml",
-                dataType: "text",
-                url: url,
-            });
-            console.log(request);
-            request.done(function(response, textStatus, jqXHR) {
-                console.log(response);
-                var valid = true;
-                if (valid) {
-                    loadCreateGame();
-                } else {
+        var username = $('#inputUser')[0].value;
+        var password = $('#inputPassword')[0].value;
+        var url = "/login?username=" + username + "&password=" + password;
+        console.log(url);
+        var request = $.ajax({
+            type: "GET",
+            contentType: "application/xml",
+            dataType: "text",
+            url: url,
+        });
+        console.log(request);
+        request.done(function(response, textStatus, jqXHR) {
+            console.log(response);
+            var valid = true;
+            if (valid) {
+                localStorage.username = username;
+                loadCreateGame();
+            } else {
 
-                }
-            });
-            request.fail(function(jqXHR, textStatus, errorThrown) {
-                // log the error to the console
-                console.error(
-                    "The following error occured: " +
-                    textStatus, errorThrown, jqXHR
-                );
-            });
-        }
+            }
+        });
+        request.fail(function(jqXHR, textStatus, errorThrown) {
+            // log the error to the console
+            console.error(
+                "The following error occured: " +
+                textStatus, errorThrown, jqXHR
+            );
+        });
+    }
 
 
 
-        function signUp() {
-            $('#wrapper').load("html/signup.html");
-        }
+    function signUp() {
+        $('#wrapper').load("html/signup.html");
+    }
     </script>
 </head>
 

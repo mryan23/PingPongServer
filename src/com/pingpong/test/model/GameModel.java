@@ -13,6 +13,7 @@ public abstract class GameModel{
 	public Timer timer;
 	boolean started = false;
 	int period=25;
+	private String[] names={"Player1","Player2"};
 	
 	Thread webSocketThread;
 	Queue<String> messageQueue;
@@ -82,5 +83,12 @@ public abstract class GameModel{
 	}
 	public int numberWebSockets(){
 		return sockets.size();
+	}
+	public String getName(int playerNum){
+		return names[playerNum-1];
+	}
+	public void setName(int playerNum, String name)
+	{
+		names[playerNum-1]=name;
 	}
 }
