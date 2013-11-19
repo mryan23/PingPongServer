@@ -101,6 +101,9 @@ self.onmessage = function(e) {
         positions.paddle1Position = update.paddle1Location;
         positions.paddle2Position = update.paddle2Location;
 
+        positions.player1Score = update.player1Score;
+        positions.player2Score = update.player2Score;
+
         var int = parseInt(positions.ballPosition.z);
         //console.log(shapes);
         var newVal = null;

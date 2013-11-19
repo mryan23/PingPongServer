@@ -106,6 +106,8 @@ public class TestGame extends GameModel{
 		update.paddle2Location.z=paddle2.z;
 		update.wallHit=false;
 		update.paddleHit=false;
+		update.player1Score=p1Score;
+		update.player2Score = p2Score;
 		
 		return gson.toJson(update);
 	}

@@ -177,6 +177,8 @@ function init() {
             oldVal = positions.newVal;
         }
 
+        console.log(positions);
+
         scoreBoard.setScore([positions.player1Score, positions.player2Score]);
         otherStats.update();
         //renderer.render(scene, camera);
