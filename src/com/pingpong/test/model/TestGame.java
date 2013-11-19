@@ -13,8 +13,8 @@ public class TestGame extends GameModel{
 	public BallModel ball;
 	public int p1Score, p2Score;
 	public TestGame(){
-		paddle1=new PaddleModel(8, 0, 0, 50);
-		paddle2=new PaddleModel(8,0,0,-50);
+		paddle1=new PaddleModel(20, 0, 0, 50);
+		paddle2=new PaddleModel(20,0,0,-50);
 		ball=new BallModel(1,0,0,0);
 		ball.setVelocity(.5f,1,1);
 		started = false;
@@ -135,7 +135,8 @@ public class TestGame extends GameModel{
 			ball.z = 0;
 			ball.x = 0;
 			ball.y = 0;
-			ball.setVelocity((float)Math.random(), (float)Math.random(), (float)Math.random());
+			//ball.setVelocity((float)Math.random(), (float)Math.random(), (float)Math.random());
+			ball.setVelocity((float)Math.random(), (float)Math.random(), 1);
 		}
 		
 		if (ball.z>(50 + (3* ball.radius))) {
@@ -147,7 +148,8 @@ public class TestGame extends GameModel{
 			ball.z = 0;
 			ball.x = 0;
 			ball.y = 0;
-			ball.setVelocity((float)Math.random(), (float)Math.random(), (float)Math.random());
+			//ball.setVelocity((float)Math.random(), (float)Math.random(), (float)Math.random());
+			ball.setVelocity((float)Math.random(), (float)Math.random(), 1);
 		} else if (ball.z<(-50 - (3* ball.radius))) {
 			// Player 1 scored!
 			// We will reset the ball and give it random velocity
@@ -157,7 +159,8 @@ public class TestGame extends GameModel{
 			ball.z = 0;
 			ball.x = 0;
 			ball.y = 0;
-			ball.setVelocity((float)Math.random(), (float)Math.random(), (float)Math.random());
+			//ball.setVelocity((float)Math.random(), (float)Math.random(), (float)Math.random());
+			ball.setVelocity((float)Math.random(), (float)Math.random(), 1);
 		}
 		
 		postMessage(getMessage());
