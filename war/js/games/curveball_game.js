@@ -30,6 +30,11 @@ function init() {
     otherStats.domElement.style.top = "50px";
     container.appendChild(otherStats.domElement);
 
+    paddleStats = new Stats();
+    paddleStats.domElement.style.position = 'absolute';
+    paddleStats.domElement.style.top = "100px";
+    container.appendChild(paddleStats.domElement);
+
 
     camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
 
@@ -170,6 +175,12 @@ function init() {
         }
         if (positions.fromNetwork)
             otherStats.update();
+        if (paddle1.paddle.position.x != -1 * possitions.paddle1Position.x ||
+            paddle1.paddle.position.y != positions.paddle1Position.y ||
+            paddle2.paddle.position.x != positions.paddle2Position.x ||
+            paddle2.paddle.position.y != positions.paddle2Position.y) {
+            paddleStats.update();
+        }
         //renderer.render(scene, camera);
     };
     worker.postMessage('ws://' + location.hostname + ':8080/socket?gameId=' + gameId);

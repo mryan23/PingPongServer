@@ -18,6 +18,8 @@ public abstract class GameModel {
 	Thread webSocketThread;
 	Queue<String> messageQueue;
 	private GameUpdate prevSentUpdate;
+	
+	
 
 	public GameModel() {
 		messageQueue = new ConcurrentLinkedQueue<String>();
@@ -96,11 +98,18 @@ public abstract class GameModel {
 			prevSentUpdate = update;
 			send = true;
 		}
-		if(!prevSentUpdate.ballVelocity.equals(update.ballVelocity)){
-			send=true;
-		} else if(!prevSentUpdate.paddle1Location.equals(update.paddle1Location)||
-				!prevSentUpdate.paddle2Location.equals(update.paddle2Location)){
-			send=true;
+		if (!prevSentUpdate.ballVelocity.equals(update.ballVelocity)) {
+			send = true;
+		} else if (!prevSentUpdate.paddle1Location
+				.equals(update.paddle1Location)) {
+			send = true;
+		}
+		if (!prevSentUpdate.paddle2Location
+				.equals(update.paddle2Location)) {
+			send = true;
+			System.out.println("SENT");
+		} else {
+			System.out.println("NOT SENT");
 		}
 		if (send) {
 			prevSentUpdate = update;
