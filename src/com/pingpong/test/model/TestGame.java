@@ -11,13 +11,16 @@ public class TestGame extends GameModel{
 	public PaddleModel paddle1, paddle2;
 	Gson gson = new Gson();
 	public BallModel ball;
+	public int p1Score, p2Score;
 	public TestGame(){
-		paddle1=new PaddleModel(25,25, 0, 0, 50);
-		paddle2=new PaddleModel(25,25,0,0,-50);
+		paddle1=new PaddleModel(8, 0, 0, 50);
+		paddle2=new PaddleModel(8,0,0,-50);
 		ball=new BallModel(1,0,0,0);
 		ball.setVelocity(.5f,1,1);
 		started = false;
 		sockets = new ArrayList<PingPongWebSocket>();
+		p1Score = 0;
+		p2Score = 0;
 	}
 	
 	/*public void start(){
@@ -125,11 +128,36 @@ public class TestGame extends GameModel{
 			ball.setVelocity(ball.velx,-1*ball.vely, ball.velz);
 		}
 		
+		// Out of bounds reset (should never happen)
 		if(ball.z>100||ball.z<-100){
-			ball.z=0;
-			ball.x=0;
-			ball.y=0;
+			ball.z = 0;
+			ball.x = 0;
+			ball.y = 0;
+			ball.setVelocity((float)Math.random(), (float)Math.random(), (float)Math.random());
 		}
+		
+		if (ball.z>(50 + (3* ball.radius))) {
+			// Player 2 scored!
+			// We will reset the ball and give it random velocity
+			
+			p2Score++;
+			
+			ball.z = 0;
+			ball.x = 0;
+			ball.y = 0;
+			ball.setVelocity((float)Math.random(), (float)Math.random(), (float)Math.random());
+		} else if (ball.z<(-50 - (3* ball.radius))) {
+			// Player 1 scored!
+			// We will reset the ball and give it random velocity
+			
+			p1Score++;
+			
+			ball.z = 0;
+			ball.x = 0;
+			ball.y = 0;
+			ball.setVelocity((float)Math.random(), (float)Math.random(), (float)Math.random());
+		}
+		
 		postMessage(getMessage());
 		//for(PingPongWebSocket ws:sockets)
 			//ws.sendMessage(getMessage());
