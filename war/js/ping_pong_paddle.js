@@ -10,7 +10,7 @@ PingPongPaddle.prototype = {
     init: function(scene) {
         var tableImage = THREE.ImageUtils.loadTexture('images/paddle_texture.jpg');
         //var geometry = new THREE.CubeGeometry(this.radius, this.radius, .1);
-        var geometry = new THREE.CylinderGeometry(this.radius / 2, this.radius / 2, .1, 16, 1);
+        var geometry = new THREE.CylinderGeometry(this.radius, this.radius, .1, 16, 1);
         this.paddle = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
             map: tableImage,
             transparent: true,

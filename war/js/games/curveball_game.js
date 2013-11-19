@@ -133,11 +133,11 @@ function init() {
 
 
     //paddle1 = new PingPongPaddle(-50, -7, 0, 20);
-    paddle1 = new PingPongPaddle(0, -7, -50, 20);
+    paddle1 = new PingPongPaddle(0, -7, -50, 10);
     paddle1.init(scene);
     //paddle1.rotate(0,-Math.PI/16,0);
     //paddle2 = new PingPongPaddle(50, -7, 0, 20);
-    paddle2 = new PingPongPaddle(0, -7, 50, 20);
+    paddle2 = new PingPongPaddle(0, -7, 50, 10);
     paddle2.init(scene);
     //paddle2.rotate(0,Math.PI/4,0);
 

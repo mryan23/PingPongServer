@@ -13,8 +13,8 @@ public class TestGame extends GameModel{
 	public BallModel ball;
 	public int p1Score, p2Score;
 	public TestGame(){
-		paddle1=new PaddleModel(20, 0, 0, 50);
-		paddle2=new PaddleModel(20,0,0,-50);
+		paddle1=new PaddleModel(10, 0, 0, 50);
+		paddle2=new PaddleModel(10,0,0,-50);
 		ball=new BallModel(1,0,0,0);
 		ball.setVelocity(.5f,1,1);
 		started = false;
