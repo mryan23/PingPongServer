@@ -1,28 +1,30 @@
 <script>
-    function joinGame() {
-        var id = $("#GameIdField").val();
-        window.location = "game.html?id=" + id;
-    }
+function joinGame() {
+    var id = $("#GameIdField").val();
+    var gameType = 1;
+    var playerNum = 2;
+    window.location = "game.html?id=" + id + "&playerNum=" + playerNum + "&gameType=" + gameType;
+}
 
-    function newGame() {
-        var gameType = parseInt($('#GameType').find(":selected").val());
-        var numPlayers = parseInt($('#NumPlayers').find(":selected").val());
-        var object = new Object();
-        object.gameType = gameType;
-        object.numPlayers = numPlayers;
-        console.log(JSON.stringify(object));
+function newGame() {
+    var gameType = parseInt($('#GameType').find(":selected").val());
+    var numPlayers = parseInt($('#NumPlayers').find(":selected").val());
+    var object = new Object();
+    object.gameType = gameType;
+    object.numPlayers = numPlayers;
+    console.log(JSON.stringify(object));
 
-        var request = $.ajax({
-            type: "POST",
-            url: "/game/",
-            data: JSON.stringify(object),
-        });
-        request.done(function(response, textStatus, jqXHR) {
-            var resp = jQuery.parseJSON(response);
-            alert("Game ID is " + resp.gameId);
-            window.location = "game.html?id=" + resp.gameId + "&playerNum=" + resp.playerNum + "&gameType=" + resp.gameType;
-        });
-    }
+    var request = $.ajax({
+        type: "POST",
+        url: "/game/",
+        data: JSON.stringify(object),
+    });
+    request.done(function(response, textStatus, jqXHR) {
+        var resp = jQuery.parseJSON(response);
+        alert("Game ID is " + resp.gameId);
+        window.location = "game.html?id=" + resp.gameId + "&playerNum=" + resp.playerNum + "&gameType=" + resp.gameType;
+    });
+}
 </script>
 <input type="text" id="GameIdField"></input>
 <button id="JoinGameButton" onclick="joinGame();" class="btn">Join Game</button>

@@ -30,6 +30,11 @@ function init() {
     otherStats.domElement.style.top = "50px";
     container.appendChild(otherStats.domElement);
 
+    paddleStats = new Stats();
+    paddleStats.domElement.style.position = 'absolute';
+    paddleStats.domElement.style.top = "100px";
+    container.appendChild(paddleStats.domElement);
+
 
     camera = new THREE.PerspectiveCamera(45, WIDTH / HEIGHT, 0.1, 20000);
 
@@ -146,7 +151,12 @@ function init() {
         ball.position = positions.ballPosition;
         ball.update();
 
-        paddle1.paddle.position.x = positions.paddle1Position.x;
+        if (paddle1.paddle.position.x != -1 * positions.paddle1Position.x ||
+            paddle1.paddle.position.y != positions.paddle1Position.y) {
+            paddleStats.update();
+        }
+
+        paddle1.paddle.position.x = -1 * positions.paddle1Position.x;
         paddle1.paddle.position.y = positions.paddle1Position.y;
 
 
