@@ -7,3 +7,4 @@
 pingpongserver.jar
 *.db
 *.sh
+/bin
