@@ -149,7 +149,14 @@ public class TestGame extends GameModel{
 			ball.x = 0;
 			ball.y = 0;
 			//ball.setVelocity((float)Math.random(), (float)Math.random(), (float)Math.random());
-			ball.setVelocity((float)Math.random(), (float)Math.random(), 1);
+			//ball.setVelocity((float)Math.random(), (float)Math.random(), 1);
+			float sign = (float)Math.random();
+			if (sign >= 0.5) {
+				sign = 1.0f;
+			} else {
+				sign = -1.0f;
+			}
+			ball.setVelocity(2*((float)Math.random()) - 1, 2*((float)Math.random()) - 1, sign);
 		} else if (ball.z<(-50 - (3* ball.radius))) {
 			// Player 1 scored!
 			// We will reset the ball and give it random velocity
@@ -160,7 +167,14 @@ public class TestGame extends GameModel{
 			ball.x = 0;
 			ball.y = 0;
 			//ball.setVelocity((float)Math.random(), (float)Math.random(), (float)Math.random());
-			ball.setVelocity((float)Math.random(), (float)Math.random(), 1);
+			//ball.setVelocity((float)Math.random(), (float)Math.random(), 1);
+			float sign = (float)Math.random();
+			if (sign >= 0.5) {
+				sign = 1.0f;
+			} else {
+				sign = -1.0f;
+			}
+			ball.setVelocity(2*((float)Math.random()) - 1, 2*((float)Math.random()) - 1, sign);
 		}
 		
 		postMessage(getMessage());
