@@ -176,6 +176,8 @@ function init() {
             shapes[positions.newVal].material.color.setHex(0xff0000);
             oldVal = positions.newVal;
         }
+
+        scoreBoard.setScore([positions.player1Score, positions.player2Score]);
         otherStats.update();
         //renderer.render(scene, camera);
     };
