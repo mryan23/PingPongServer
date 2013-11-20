@@ -1,6 +1,8 @@
 package com.pingpong.test;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,20 +13,38 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 public class SignUpServlet extends HttpServlet {
+	
+	static Gson gson = new Gson();
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
-	
-		Boolean result = signUpUser(username, password);
+		String hashPassword = null;
 		
-		//Send result back
-        resp.setContentType("text/xml; charset=UTF-8");
-        resp.setStatus(HttpServletResponse.SC_OK);
-        resp.getWriter().write("<?xml version=1.0 encoding=UTF-8?>");
-        
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("SHA-256");
+			md.update(password.getBytes());
+			 
+	        byte byteData[] = md.digest();
+	 
+	        //convert the byte to hex format
+	        StringBuffer sb = new StringBuffer();
+	        for (int i = 0; i < byteData.length; i++) {
+	        	sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+	        
+	        hashPassword = sb.toString();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+	
+		Boolean result = signUpUser(username, hashPassword);
+		
         String success = "";
         if (result) {
         	success = "Success";
@@ -32,12 +52,14 @@ public class SignUpServlet extends HttpServlet {
         else {
         	success = "Username already in use";
         }
-		
-		resp.getWriter().write("<login>");
-        resp.getWriter().write("<result>" + success + "</result>");
-        resp.getWriter().write("<username>" + username + "</username>");
-        resp.getWriter().write("<password>" + password + "</password>");
-        resp.getWriter().write("</login>");
+        
+        Response response = new Response();
+        response.username = username;
+        response.password = password;
+        response.result = success;
+        
+        resp.setContentType("application/json");
+		resp.getWriter().write(gson.toJson(response));
 	}
 	
 	public static Boolean signUpUser(String username, String password) {
@@ -68,5 +90,11 @@ public class SignUpServlet extends HttpServlet {
 		}
 		
 		return true;
+	}
+	
+	private class Response {
+		public String username;
+		public String password;
+		public String result;
 	}
 }
