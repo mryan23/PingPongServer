@@ -40,10 +40,10 @@ function init() {
 
     if (playerNum == 1) {
         //camera.position.set(-120, -4.5, -.5);
-        camera.position.set(-.5, -4.5, -120);
+        camera.position.set(-.5, -4.5, 120);
         //camera.rotation.set(-1.71, -1.54, -1.71);
     } else if (playerNum == 2) {
-        camera.position.set(-.5, -4.5, 120);
+        camera.position.set(-.5, -4.5, -120);
         //camera.rotation.set(1.71, 1.54, -1.71);
     }
     camera.lookAt(new THREE.Vector3(0, 0, 0));
@@ -133,11 +133,11 @@ function init() {
 
 
     //paddle1 = new PingPongPaddle(-50, -7, 0, 20);
-    paddle1 = new PingPongPaddle(0, -7, -50, 10);
+    paddle1 = new PingPongPaddle(0, -7, 50, 10);
     paddle1.init(scene);
     //paddle1.rotate(0,-Math.PI/16,0);
     //paddle2 = new PingPongPaddle(50, -7, 0, 20);
-    paddle2 = new PingPongPaddle(0, -7, 50, 10);
+    paddle2 = new PingPongPaddle(0, -7, -50, 10);
     paddle2.init(scene);
     //paddle2.rotate(0,Math.PI/4,0);
 
@@ -151,12 +151,12 @@ function init() {
         ball.position = positions.ballPosition;
         ball.update();
 
-        if (paddle1.paddle.position.x != -1 * positions.paddle1Position.x ||
+        if (paddle1.paddle.position.x != positions.paddle1Position.x ||
             paddle1.paddle.position.y != positions.paddle1Position.y) {
             paddleStats.update();
         }
 
-        paddle1.paddle.position.x = -1 * positions.paddle1Position.x;
+        paddle1.paddle.position.x = positions.paddle1Position.x;
         paddle1.paddle.position.y = positions.paddle1Position.y;
 
 
