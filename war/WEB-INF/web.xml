@@ -30,6 +30,10 @@ javaee/web-app_3_0.xsd"
 	    <servlet-name>Users</servlet-name>
 	    <servlet-class>com.pingpong.test.UserNameServlet</servlet-class>
 	</servlet>
+	<servlet>
+	    <servlet-name>Leaderboard</servlet-name>
+	    <servlet-class>com.pingpong.test.LeaderboardServlet</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>Socket</servlet-name>
@@ -54,5 +58,9 @@ javaee/web-app_3_0.xsd"
 	<servlet-mapping>
 		<servlet-name>Users</servlet-name>
 		<url-pattern>/users</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Leaderboard</servlet-name>
+		<url-pattern>/leaderboard</url-pattern>
 	</servlet-mapping>
 </web-app>
