@@ -11,7 +11,7 @@ public class TestGame extends GameModel{
 	public PaddleModel paddle1, paddle2;
 	Gson gson = new Gson();
 	public BallModel ball;
-	public int p1Score, p2Score;
+	public int p1Score, p2Score, wait;
 	public TestGame(){
 		paddle1=new PaddleModel(10, 0, 0, 50);
 		paddle2=new PaddleModel(10,0,0,-50);
@@ -21,6 +21,7 @@ public class TestGame extends GameModel{
 		sockets = new ArrayList<PingPongWebSocket>();
 		p1Score = 0;
 		p2Score = 0;
+		wait = 2000;
 	}
 	
 	/*public void start(){
@@ -122,6 +123,10 @@ public class TestGame extends GameModel{
 		if (sockets.size() < 2) {
 			return;
 		}
+		if (wait > 0) {
+			wait -= period;
+			return;
+		}
 		
 		ball.move();
 		if(paddle1.collision(ball) || paddle2.collision(ball)){
@@ -161,6 +166,8 @@ public class TestGame extends GameModel{
 				zSpeed = -0.5f;
 			}
 			ball.setVelocity(((float)Math.random()) - 0.5f, ((float)Math.random()) - 0.5f, zSpeed);
+			
+			wait = 2000;
 		} else if (ball.z<(-50 - (3* ball.radius))) {
 			// Player 1 scored!
 			// We will reset the ball and give it random velocity
@@ -179,6 +186,8 @@ public class TestGame extends GameModel{
 				zSpeed = -0.5f;
 			}
 			ball.setVelocity(((float)Math.random()) - 0.5f, ((float)Math.random()) - 0.5f, zSpeed);
+		
+			wait = 2000;
 		}
 		
 		postMessage(getMessage());
