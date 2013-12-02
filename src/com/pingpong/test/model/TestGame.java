@@ -119,6 +119,10 @@ public class TestGame extends GameModel{
 	}
 
 	public void update(){
+		if (sockets.size() < 2) {
+			return;
+		}
+		
 		ball.move();
 		if(paddle1.collision(ball) || paddle2.collision(ball)){
 			ball.setVelocity(ball.velx*1.02f, ball.vely*1.02f, -1.02f*ball.velz);
