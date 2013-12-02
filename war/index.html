@@ -9,6 +9,7 @@
     </style>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
     <script>
     function loadCreateGame() {
         $('#wrapper').load("html/create_game.html");
@@ -19,22 +20,24 @@
 
         var username = $('#inputUser')[0].value;
         var password = $('#inputPassword')[0].value;
-        var url = "/login?username=" + username + "&password=" + password;
+        var hash = CryptoJS.SHA256(password);
+        var url = "/login?username=" + username + "&password=" + hash;
         console.log(url);
         var request = $.ajax({
             type: "GET",
-            contentType: "application/xml",
-            dataType: "text",
+            contentType: "application/json",
+            dataType: "json",
             url: url,
         });
         console.log(request);
         request.done(function(response, textStatus, jqXHR) {
             console.log(response);
-            var valid = true;
+            var valid = response.result=="Success";
             if (valid) {
                 localStorage.username = username;
                 loadCreateGame();
             } else {
+                alert(response.result);
 
             }
         });

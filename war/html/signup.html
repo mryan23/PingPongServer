@@ -16,17 +16,23 @@
         }
         var username = $('#inputUser')[0].value;
         var password = $('#inputPassword')[0].value;
-        var url = "/signup?username=" + username + "&password=" + password;
+        var hash = CryptoJS.SHA256(password);
+        var url = "/signup?username=" + username + "&password=" + hash;
         console.log(url);
         var request = $.ajax({
             type: "GET",
             contentType: "application/xml",
-            dataType: "text",
+            dataType: "json",
             url: url,
         });
         console.log(request);
         request.done(function(response, textStatus, jqXHR) {
             console.log(response);
+            if(response.result=="Success"){
+                location.reload();
+            }else{
+                alert(response.result);
+            }
         });
         request.fail(function(jqXHR, textStatus, errorThrown) {
             // log the error to the console
