@@ -68,7 +68,7 @@ public abstract class GameModel{
 	public void stop(){
 		timer.cancel();
 		webSocketThread.interrupt();
-		started = false;
+		started = false;		
 	}
 	public abstract void movePaddle(int paddleNum, float x, float y);
 	public abstract void update();
