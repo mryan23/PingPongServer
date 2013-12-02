@@ -125,13 +125,15 @@ public class TestGame extends GameModel{
 
 	public void update(){
 		if (sockets.size() < 2) {
-			return;
-		}
-		if (wait > 0) {
+			// Don't update ball
+		} else if (wait > 0) {
 			wait -= period;
-			return;
+			// Don't update ball
+		} else {
+			ball.move();
+			ball.velx += curveX;
+			ball.vely += curveY;
 		}
-		ball.move();
 		if(paddle1.collision(ball) || paddle2.collision(ball)){
 			ball.setVelocity(ball.velx*1.02f, ball.vely*1.02f, -1.02f*ball.velz);
 			curveX = ((2*(float)Math.random()) - 1.0f) / 50.0f;
@@ -200,11 +202,7 @@ public class TestGame extends GameModel{
 			curveX = ((2*(float)Math.random()) - 1.0f) / 50.0f;
 			curveY = ((2*(float)Math.random()) - 1.0f) / 50.0f;
 			
-		}
-		
-		ball.velx += curveX;
-		ball.vely += curveY;
-		
+		}		
 		postMessage(getMessage());
 		//for(PingPongWebSocket ws:sockets)
 			//ws.sendMessage(getMessage());
