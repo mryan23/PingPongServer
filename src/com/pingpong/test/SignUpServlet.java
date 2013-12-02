@@ -23,27 +23,8 @@ public class SignUpServlet extends HttpServlet {
 		
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
-		String hashPassword = null;
-		
-		MessageDigest md;
-		try {
-			md = MessageDigest.getInstance("SHA-256");
-			md.update(password.getBytes());
-			 
-	        byte byteData[] = md.digest();
-	 
-	        //convert the byte to hex format
-	        StringBuffer sb = new StringBuffer();
-	        for (int i = 0; i < byteData.length; i++) {
-	        	sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-	        }
-	        
-	        hashPassword = sb.toString();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
 	
-		Boolean result = signUpUser(username, hashPassword);
+		Boolean result = signUpUser(username, password);
 		
         String success = "";
         if (result) {

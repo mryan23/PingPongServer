@@ -15,7 +15,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import com.pingpong.test.model.GameModel;
-import com.pingpong.test.model.TestGame;
 import com.pingpong.test.udp.UdpThread;
 
 public class PingPongWebServer extends HttpServlet {
