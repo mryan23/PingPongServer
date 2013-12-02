@@ -5,13 +5,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.google.gson.Gson;
+import com.pingpong.test.PingPongWebServer;
 import com.pingpong.test.PingPongWebSocket;
 
 public class TestGame extends GameModel{
 	public PaddleModel paddle1, paddle2;
 	Gson gson = new Gson();
 	public BallModel ball;
-	public int p1Score, p2Score;
+	public int p1Score, p2Score, wait;
+	public float curveX, curveY;
 	public TestGame(){
 		paddle1=new PaddleModel(10, 0, 0, 50);
 		paddle2=new PaddleModel(10,0,0,-50);
@@ -21,6 +23,9 @@ public class TestGame extends GameModel{
 		sockets = new ArrayList<PingPongWebSocket>();
 		p1Score = 0;
 		p2Score = 0;
+		wait = 2000;
+		curveX = 0.01f;
+		curveY = 0.01f;
 	}
 	
 	/*public void start(){
@@ -119,9 +124,18 @@ public class TestGame extends GameModel{
 	}
 
 	public void update(){
+		if (sockets.size() < 2) {
+			return;
+		}
+		if (wait > 0) {
+			wait -= period;
+			return;
+		}
 		ball.move();
 		if(paddle1.collision(ball) || paddle2.collision(ball)){
 			ball.setVelocity(ball.velx*1.02f, ball.vely*1.02f, -1.02f*ball.velz);
+			curveX = ((2*(float)Math.random()) - 1.0f) / 50.0f;
+			curveY = ((2*(float)Math.random()) - 1.0f) / 50.0f;
 		}
 		if((ball.x<-25||ball.x>25)&&(ball.z<50&&ball.z>-50)){
 			ball.setVelocity(-1*ball.velx, ball.vely, ball.velz);
@@ -157,6 +171,11 @@ public class TestGame extends GameModel{
 				zSpeed = -0.5f;
 			}
 			ball.setVelocity(((float)Math.random()) - 0.5f, ((float)Math.random()) - 0.5f, zSpeed);
+			
+			wait = 2000;
+			
+			curveX = ((2*(float)Math.random()) - 1.0f) / 50.0f;
+			curveY = ((2*(float)Math.random()) - 1.0f) / 50.0f;
 		} else if (ball.z<(-50 - (3* ball.radius))) {
 			// Player 1 scored!
 			// We will reset the ball and give it random velocity
@@ -175,11 +194,25 @@ public class TestGame extends GameModel{
 				zSpeed = -0.5f;
 			}
 			ball.setVelocity(((float)Math.random()) - 0.5f, ((float)Math.random()) - 0.5f, zSpeed);
+		
+			wait = 2000;
+			
+			curveX = ((2*(float)Math.random()) - 1.0f) / 50.0f;
+			curveY = ((2*(float)Math.random()) - 1.0f) / 50.0f;
+			
 		}
+		
+		ball.velx += curveX;
+		ball.vely += curveY;
 		
 		postMessage(getMessage());
 		//for(PingPongWebSocket ws:sockets)
 			//ws.sendMessage(getMessage());
+	}
+	
+	public void stop() {
+		PingPongWebServer.updateScores(getName(1), getName(2), p1Score, p2Score);
+		super.stop();
 	}
 
 }
