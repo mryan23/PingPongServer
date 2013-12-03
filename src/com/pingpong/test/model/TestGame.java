@@ -24,8 +24,8 @@ public class TestGame extends GameModel{
 		p1Score = 0;
 		p2Score = 0;
 		wait = 2000;
-		curveX = 0.01f;
-		curveY = 0.01f;
+		curveX = 0.005f;
+		curveY = 0.005f;
 	}
 	
 	/*public void start(){
@@ -133,11 +133,21 @@ public class TestGame extends GameModel{
 			ball.move();
 			ball.velx += curveX;
 			ball.vely += curveY;
+			if (ball.velx < -10.0f) {
+				ball.velx= -10.0f;
+			} else if (ball.velx > 10.0f) {
+				ball.velx = 10.0f;
+			}
+			if (ball.vely < -10.0f) {
+				ball.vely = -10.0f;
+			} else if (ball.vely > 10.0f) {
+				ball.vely = 10.0f;
+			}
 		}
 		if(paddle1.collision(ball) || paddle2.collision(ball)){
 			ball.setVelocity(ball.velx*1.02f, ball.vely*1.02f, -1.02f*ball.velz);
-			curveX = ((2*(float)Math.random()) - 1.0f) / 50.0f;
-			curveY = ((2*(float)Math.random()) - 1.0f) / 50.0f;
+			curveX = ((2*(float)Math.random()) - 1.0f) / 100.0f;
+			curveY = ((2*(float)Math.random()) - 1.0f) / 100.0f;
 		}
 		if((ball.x<-25||ball.x>25)&&(ball.z<50&&ball.z>-50)){
 			ball.setVelocity(-1*ball.velx, ball.vely, ball.velz);
