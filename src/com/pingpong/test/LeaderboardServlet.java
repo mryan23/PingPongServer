@@ -41,7 +41,9 @@ public class LeaderboardServlet extends HttpServlet {
 			while (result.next()) {
 				String name = result.getString("username");
 				int score = result.getInt("score");
-				resultVector.add(name + " " + String.valueOf(score));
+				int wins = result.getInt("wins");
+				int losses = result.getInt("losses");
+				resultVector.add(name + " " + String.valueOf(score) + " " + String.valueOf(wins) + "/" + String.valueOf(losses));
 			}
 			result.close();
 			stmt.close();
