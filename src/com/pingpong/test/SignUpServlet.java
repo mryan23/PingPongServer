@@ -61,7 +61,7 @@ public class SignUpServlet extends HttpServlet {
 			stmt.close();
 			
 			Statement myStatment = c.createStatement();
-			String sql = "INSERT INTO class (username,password,score) "
+			String sql = "INSERT INTO class (username,password,score,wins, losses) "
 					+"VALUES ('" + username + "', '" + password + "', 0, 0, 0);";
 			myStatment.executeUpdate(sql);
 			myStatment.close();
