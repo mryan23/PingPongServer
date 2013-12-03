@@ -36,7 +36,7 @@ public class CreateGameServlet extends HttpServlet {
 		System.out.println(request.numPlayers + " " + request.gameType);
 		int gameId;
 		do {
-			gameId = (int) (Math.random() * 10000);
+			gameId = (int) (Math.random() * 9000)+1000;
 		} while (PingPongWebServer.games.containsKey(gameId + ""));
 		GameModel game = new TestGame();
 		Response response = new Response();

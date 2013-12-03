@@ -101,7 +101,7 @@ public class PingPongWebServer extends HttpServlet {
 			result.close();
 			stmt.close();
 			
-			stmt = database_.prepareStatement("UPDATE class SET score=? SET wins=? SET losses=? WHERE username=?");
+			stmt = database_.prepareStatement("UPDATE class SET score=?, wins=?, losses=? WHERE username=?");
 			stmt.setInt(1, p1LastScore + p1Score);
 			stmt.setInt(2, p1LastWin + p1Win);
 			stmt.setInt(3,  p1Lose + p1LastLose);
@@ -116,14 +116,14 @@ public class PingPongWebServer extends HttpServlet {
 				String name = rs.getString("username");
 				if (player2.matches(name)) {
 					p2LastScore = rs.getInt("score");
-					p2LastWin = result.getInt("wins");
-					p2LastLose = result.getInt("losses");
+					p2LastWin = rs.getInt("wins");
+					p2LastLose = rs.getInt("losses");
 				}
 			}
-			result.close();
+			rs.close();
 			stmt.close();
 			
-			stmt = database_.prepareStatement("UPDATE class SET score=? SET wins=? SET losses=? WHERE username=?");
+			stmt = database_.prepareStatement("UPDATE class SET score=?, wins=?, losses=? WHERE username=?");
 			stmt.setInt(1, p2LastScore + p2Score);
 			stmt.setInt(2, p2LastWin + p2Win);
 			stmt.setInt(3,  p2Lose + p2LastLose);
