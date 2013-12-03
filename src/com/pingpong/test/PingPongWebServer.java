@@ -49,20 +49,42 @@ public class PingPongWebServer extends HttpServlet {
 	}
 	
 	public static void createTable (Connection c) throws SQLException {
-		System.out.println("Creating table");
 		Statement stmt = c.createStatement();
 		String sql = "CREATE TABLE IF NOT EXISTS class " 
 				+ "(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," 
 				+ " username TEXT NOT NULL, "
 				+ " password TEXT NOT NULL, "
-				+ "score INT NOT NULL)";
+				+ " score INT NOT NULL, "
+				+ " wins INT NOT NULL, "
+				+ "losses INT NOT NULL)";
 		stmt.executeUpdate(sql);
 		stmt.close();
 	}
 	
 	public static void updateScores(String player1, String player2, int p1Score, int p2Score) {
-		int p1New = 0;
-		int p2New = 0;
+		int p1LastScore = 0;
+		int p2LastScore = 0;
+		int p1LastWin = 0;
+		int p2LastWin = 0;
+		int p1LastLose = 0;
+		int p2LastLose = 0;
+		int p1Win = 0;
+		int p1Lose = 0;
+		int p2Win = 0;
+		int p2Lose = 0;
+		
+		if (p1Score > p2Score) {
+			p1Win = 1;
+			p1Lose = 0;
+			p2Win = 0;
+			p2Lose = 1;
+		}
+		else {
+			p1Win = 0;
+			p1Lose = 1;
+			p2Win = 1;
+			p2Lose = 0;
+		}
 		
 		try {
 			PreparedStatement stmt = database_.prepareStatement("SELECT * FROM class WHERE username=?");
@@ -71,15 +93,19 @@ public class PingPongWebServer extends HttpServlet {
 			while (result.next()) {
 				String name = result.getString("username");
 				if (player1.matches(name)) {
-					p1New = result.getInt("score");
+					p1LastScore = result.getInt("score");
+					p1LastWin = result.getInt("wins");
+					p1LastLose = result.getInt("losses");
 				}
 			}
 			result.close();
 			stmt.close();
 			
-			stmt = database_.prepareStatement("UPDATE class SET score=? WHERE username=?");
-			stmt.setInt(1, p1New + p1Score);
-			stmt.setString(2, player1);
+			stmt = database_.prepareStatement("UPDATE class SET score=? SET wins=? SET losses=? WHERE username=?");
+			stmt.setInt(1, p1LastScore + p1Score);
+			stmt.setInt(2, p1LastWin + p1Win);
+			stmt.setInt(3,  p1Lose + p1LastLose);
+			stmt.setString(4, player1);
 			stmt.executeUpdate();
 			stmt.close();
 			
@@ -89,15 +115,19 @@ public class PingPongWebServer extends HttpServlet {
 			while (rs.next()) {
 				String name = rs.getString("username");
 				if (player2.matches(name)) {
-					p2New = rs.getInt("score");
+					p2LastScore = rs.getInt("score");
+					p2LastWin = result.getInt("wins");
+					p2LastLose = result.getInt("losses");
 				}
 			}
 			result.close();
 			stmt.close();
 			
-			stmt = database_.prepareStatement("UPDATE class SET score=? WHERE username=?");
-			stmt.setInt(1, p2New + p2Score);
-			stmt.setString(2, player2);
+			stmt = database_.prepareStatement("UPDATE class SET score=? SET wins=? SET losses=? WHERE username=?");
+			stmt.setInt(1, p2LastScore + p2Score);
+			stmt.setInt(2, p2LastWin + p2Win);
+			stmt.setInt(3,  p2Lose + p2LastLose);
+			stmt.setString(4, player2);
 			stmt.executeUpdate();
 			stmt.close();
 			
